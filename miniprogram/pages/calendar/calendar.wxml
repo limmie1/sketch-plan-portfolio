@@ -1,0 +1,71 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="cal-head">
+      <view class="cal-nav" bindtap="prev">‹</view>
+      <view class="cal-m" bindtap="backToday">{{monthLabel}}</view>
+      <view class="cal-nav" bindtap="next">›</view>
+    </view>
+
+    <view class="cal-week">
+      <view class="cal-wd" wx:for="{{weekdays}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <view class="cal-grid">
+      <view
+        class="cal-cell {{item.out ? 'out' : ''}} {{item.today ? 'today' : ''}} {{item.sel ? 'sel' : ''}}"
+        wx:for="{{cells}}"
+        wx:key="k"
+        data-k="{{item.k}}"
+        bindtap="pick"
+      >
+        <view class="cal-day">{{item.day}}</view>
+        <view class="cal-mark" wx:if="{{item.mark}}"></view>
+      </view>
+    </view>
+
+    <view class="sec-h">
+      <text class="sec-t">{{selLabel}}</text>
+      <view class="sec-a" bindtap="openNew">＋ 新增</view>
+    </view>
+
+    <view class="list" wx:if="{{dayEvents.length}}">
+      <view
+        class="row {{item.done ? 'done' : ''}}"
+        wx:for="{{dayEvents}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="toggle"
+        bindlongpress="more"
+      >
+        <view class="tick {{item.done ? 'on' : ''}}">{{item.done ? '✓' : ''}}</view>
+        <view class="row-main">
+          <view class="row-t">{{item.title}}</view>
+          <view class="row-s">
+            <view class="dot {{item.cat}}"></view>
+            <text>{{item.start}}–{{item.end}} · {{item.catName}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:else>
+      <view>这天还没有安排。</view>
+      <view>点「＋ 新增」记一件事。</view>
+    </view>
+
+    <view class="note">轻点日期切换；轻点条目打勾，长按可编辑或删除。点月份标题回到今天。</view>
+
+  </view>
+</view>
+
+<ev-sheet
+  show="{{sheet}}"
+  value="{{form}}"
+  cats="{{cats}}"
+  bind:submit="onSubmit"
+  bind:cancel="onCancel"
+  bind:remove="onRemove"
+/>

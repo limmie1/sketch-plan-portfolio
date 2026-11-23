@@ -1,0 +1,162 @@
+/* ============================================================
+   Sketch Plan · 登录 / 注册
+   复用 app.css 的三套主题令牌
+   ============================================================ */
+
+.auth { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); height: 100dvh; }
+
+/* ---------- 左侧 ---------- */
+.auth-side {
+  position: relative; overflow: hidden; padding: 44px 54px 38px;
+  display: flex; flex-direction: column;
+  background: var(--rail-bg); border-right: 1px solid var(--line);
+}
+[data-theme="ink"] .auth-side {
+  background-image: radial-gradient(var(--line-2) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+[data-theme="aurora"] .auth-side {
+  background:
+    radial-gradient(760px 460px at 16% 6%, rgba(139, 92, 246, .20), transparent 68%),
+    radial-gradient(620px 420px at 88% 96%, rgba(34, 211, 238, .12), transparent 70%);
+}
+
+.auth-brand { display: flex; align-items: center; gap: 10px; }
+.auth-brand .mark {
+  width: 34px; height: 34px; border-radius: 10px; flex: none;
+  background: var(--accent); color: var(--on-accent); display: grid; place-items: center;
+}
+.auth-brand .mark svg { width: 19px; height: 19px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.auth-brand b { font-family: var(--font-display); font-size: 16px; display: block; line-height: 1.2; }
+.auth-brand em { font-style: normal; font-size: 10px; color: var(--text-3); }
+
+.auth-side h1 {
+  font-family: var(--font-display); font-size: clamp(28px, 3.1vw, 44px);
+  line-height: 1.2; letter-spacing: -.03em; margin: auto 0 16px; font-weight: 600;
+}
+.auth-lede { font-size: 13px; line-height: 1.9; color: var(--text-2); margin: 0 0 26px; }
+
+.auth-points { list-style: none; margin: 0 0 26px; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.auth-points li { display: flex; gap: 12px; font-size: 12px; color: var(--text-2); line-height: 1.6; }
+.auth-points i {
+  font-style: normal; font-family: var(--font-num); font-size: 9.5px;
+  color: var(--text-3); border: 1px solid var(--line); border-radius: 99px;
+  padding: 1px 6px; height: 18px; flex: none; margin-top: 1px;
+}
+
+.auth-theme { display: flex; align-items: center; gap: 6px; margin-top: auto; }
+.auth-theme > span { font-size: 10px; letter-spacing: .12em; color: var(--text-3); margin-right: 4px; }
+.auth-theme button {
+  font-size: 11.5px; padding: 4px 12px; border-radius: 99px;
+  border: 1px solid var(--line); color: var(--text-2); transition: .16s;
+}
+.auth-theme button:hover { border-color: var(--text-3); color: var(--text); }
+.auth-theme button.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+[data-theme="pebble"] .auth-theme button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+[data-theme="aurora"] .auth-theme button.on { background: linear-gradient(120deg, var(--accent), var(--accent-2)); border-color: transparent; color: #0A0B0F; }
+
+/* ---------- 右侧 ---------- */
+.auth-main { display: grid; place-items: center; padding: 32px 28px; overflow: auto; }
+.auth-card { width: min(408px, 100%); }
+
+.auth-session {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-size: 12px; padding: 9px 12px; margin-bottom: 20px; border-radius: var(--r-1);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.auth-session a { color: var(--accent); font-weight: 600; text-decoration: none; }
+
+/* 登录 / 注册 两个 Tab（v1.7.0 曾移除，v1.7.1 恢复，注册不再要邮箱） */
+.auth-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
+.auth-tabs button {
+  padding: 9px 1px; font-size: 14px; color: var(--text-3);
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: .16s;
+}
+.auth-tabs button:hover { color: var(--text-2); }
+.auth-tabs button.on { color: var(--text); border-bottom-color: var(--text); font-weight: 600; }
+[data-theme="pebble"] .auth-tabs button.on { border-bottom-color: var(--accent); }
+[data-theme="aurora"] .auth-tabs button.on { border-bottom-color: var(--accent); }
+
+.auth-form { display: flex; flex-direction: column; gap: 13px; }
+.auth-form h2 { font-family: var(--font-display); font-size: 24px; letter-spacing: -.02em; margin: 0; }
+.auth-sub { font-size: 12px; color: var(--text-3); margin: -6px 0 2px; }
+
+.fld { display: flex; flex-direction: column; gap: 5px; }
+.fld > span { font-size: 10px; letter-spacing: .1em; color: var(--text-3); }
+.fld input {
+  border: 1px solid var(--line); border-radius: var(--r-1); background: var(--surface);
+  padding: 10px 12px; font-size: 13.5px; color: var(--text); outline: none;
+  transition: border-color .18s, background .18s;
+}
+.fld input:focus { border-color: var(--accent); background: var(--surface); }
+[data-theme="ink"] .fld input {
+  border: none; border-bottom: 1.5px solid var(--text); border-radius: 0;
+  background: transparent; padding: 8px 2px;
+}
+.fld-hint { font-size: 10.5px; color: var(--text-3); min-height: 13px; font-style: normal; }
+.fld-hint.bad { color: var(--accent); }
+
+.auth-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 2px; }
+.chk { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-2); cursor: pointer; }
+.chk input { accent-color: var(--accent); width: 14px; height: 14px; }
+.auth-note { font-size: 11px; color: var(--text-3); text-align: right; }
+
+.auth-submit { margin-top: 6px; height: 44px; justify-content: center; font-size: 14px; }
+.auth-err { font-size: 12px; color: var(--accent); margin: 0; min-height: 16px; opacity: 0; transition: opacity .2s; }
+.auth-err.show { opacity: 1; }
+
+.auth-demo {
+  font-size: 11.5px; color: var(--text-3); padding: 10px 12px;
+  border: 1px dashed var(--line); border-radius: var(--r-1); background: var(--surface-2);
+}
+.auth-demo b { color: var(--text-2); font-weight: 600; }
+
+.auth-foot { margin-top: 22px; font-size: 10.5px; color: var(--text-3); text-align: center; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 900px) {
+  .auth { grid-template-columns: 1fr; height: auto; min-height: 100dvh; }
+  .auth-side {
+    border-right: none; border-bottom: 1px solid var(--line);
+    padding: 26px 22px 20px; gap: 0;
+  }
+  .auth-side h1 { font-size: 24px; margin: 22px 0 10px; }
+  .auth-lede { font-size: 12px; margin-bottom: 14px; }
+  .auth-points { display: none; }
+  .auth-theme { margin-top: 6px; }
+  .auth-main { padding: 26px 20px 40px; align-items: start; }
+  .auth-card { width: 100%; }
+}
+
+/* ============================================================
+   界面形态切换
+   ============================================================ */
+.dev-switch {
+  position: fixed; top: 16px; right: 18px; z-index: 20;
+  display: flex; align-items: center; gap: 4px;
+  padding: 4px 6px; border: 1px solid var(--line); border-radius: 99px;
+  background: var(--surface); box-shadow: var(--sh-1);
+}
+.dev-switch span { font-size: 10px; color: var(--text-3); padding: 0 4px 0 6px; }
+.dev-switch button { font-size: 11.5px; padding: 3px 10px; border-radius: 99px; color: var(--text-2); transition: .16s; }
+.dev-switch button:hover { color: var(--text); }
+.dev-switch button.on { background: var(--text); color: var(--bg); }
+[data-theme="pebble"] .dev-switch button.on { background: var(--accent); color: #fff; }
+[data-theme="aurora"] .dev-switch button.on { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #0A0B0F; }
+
+/* 强制手机版：单列 + 窄栏 */
+html[data-device="phone"] .auth { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; height: auto; min-height: 100dvh; }
+html[data-device="phone"] .auth-side { border-right: none; border-bottom: 1px solid var(--line); padding: 30px 22px 20px; }
+html[data-device="phone"] .auth-side h1 { font-size: 24px; margin: 22px 0 10px; }
+html[data-device="phone"] .auth-lede { font-size: 12px; margin-bottom: 14px; }
+html[data-device="phone"] .auth-points { display: none; }
+html[data-device="phone"] .auth-main { padding: 26px 20px 44px; align-items: start; }
+html[data-device="phone"] .auth-card { width: 100%; }
+
+/* 强制电脑版：两栏，窄屏整体缩放 */
+html[data-device="desktop"] .auth { grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); max-width: none; height: 100dvh; }
+html[data-device="desktop"] .auth-side { border-right: 1px solid var(--line); border-bottom: none; padding: 44px 54px 38px; }
+html[data-device="desktop"] .auth-points { display: flex; }
+html[data-device="desktop"] .auth-main { padding: 32px 28px; align-items: center; }
+@media (max-width: 900px) { html[data-device="desktop"] .auth { zoom: .58; } }

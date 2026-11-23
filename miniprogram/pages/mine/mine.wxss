@@ -1,0 +1,86 @@
+.ph { color: var(--text-3); }
+.card .input { line-height: 88rpx; }
+
+/* ---------- 头部：头像 + 昵称 + 登录态 ---------- */
+.me-head {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 28rpx 0 26rpx;
+}
+.me-av-btn {
+  width: 108rpx;
+  height: 108rpx;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  background: transparent;
+  overflow: hidden;
+  flex: none;
+  line-height: 1;
+}
+.me-av-btn::after { border: none; }
+.me-av {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 50%;
+  background: var(--surface-2);
+}
+.ph-av {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-size: 44rpx;
+  color: var(--accent);
+  border: 2rpx solid var(--card-line);
+  box-sizing: border-box;
+}
+.theme-pebble .ph-av,
+.theme-aurora .ph-av { border: 1rpx solid var(--line); }
+
+.me-info { flex: 1; min-width: 0; }
+.me-name {
+  font-family: var(--display);
+  font-size: 38rpx;
+  color: var(--text);
+  line-height: 1.4;
+}
+.me-mode {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+.me-oid { margin-left: 6rpx; }
+.me-relogin {
+  font-size: 23rpx;
+  color: var(--accent);
+  padding: 12rpx 16rpx;
+  border: 1rpx solid var(--accent);
+  border-radius: 99rpx;
+  flex: none;
+}
+.theme-ink .me-relogin { border-width: 2rpx; border-radius: 12rpx 8rpx 12rpx 6rpx; }
+
+.me-stat {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.me-num { text-align: center; flex: 1; }
+.me-num b {
+  display: block;
+  font-family: var(--display);
+  font-size: 36rpx;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.me-num em {
+  display: block;
+  font-style: normal;
+  font-size: 21rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+.me-menu { padding: 4rpx 24rpx; }
+.ph { color: var(--text-3); }

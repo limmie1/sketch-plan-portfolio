@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "今天",
+  "usingComponents": {
+    "ev-sheet": "../../components/ev-sheet/index"
+  }
+}

@@ -1,0 +1,53 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">工作集 · {{list.length}} 个</view>
+      <view class="hero-t">把事情攒成一摞</view>
+      <view class="hero-sub">一个工作集，就是一件要长期推进的事。</view>
+    </view>
+
+    <view class="sec-h">
+      <text class="sec-t">我的工作集</text>
+      <view class="sec-a" bindtap="create">＋ 新建</view>
+    </view>
+
+    <view wx:if="{{list.length}}">
+      <view class="co" wx:for="{{list}}" wx:key="id">
+        <view class="co-h" data-id="{{item.id}}" bindtap="toggle" bindlongpress="more">
+          <view class="co-dot" style="background:{{item.color}}"></view>
+          <view class="co-main">
+            <view class="co-t">{{item.name}}</view>
+            <view class="co-s">{{item.catName}} · {{item.total}} 件事 · {{item.hours}} 小时</view>
+          </view>
+          <view class="co-pct">{{item.rate}}%</view>
+        </view>
+
+        <view class="bar">
+          <view class="bar-fill" style="width:{{item.rate}}%"></view>
+        </view>
+
+        <view class="co-note" wx:if="{{item.note}}">{{item.note}}</view>
+
+        <view class="co-body" wx:if="{{expanded === item.id}}">
+          <view class="empty" wx:if="{{!detail.length}}">这个工作集还没有日程。去月历里挑一天，新建时选它。</view>
+          <view class="co-row" wx:for="{{detail}}" wx:for-item="ev" wx:key="id">
+            <view class="dot" style="background:{{ev.color}}"></view>
+            <text class="co-row-t {{ev.done ? 'on' : ''}}">{{ev.title}}</text>
+            <text class="co-row-s">{{ev.date}} {{ev.time}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="note">轻点展开看里面的日程，长按可以改名、换分类或删除。</view>
+    </view>
+
+    <view class="empty" wx:else>
+      <view>还没有工作集。</view>
+      <view>把「毕业论文」「期末复习」这类长线的事建一个，日程就能挂上去。</view>
+    </view>
+
+  </view>
+</view>

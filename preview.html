@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sketch Plan · 三套界面与双端系统</title>
+<style>
+  :root{
+    --paper:#F6F5F1; --ink:#171614; --ink-2:#5C574D; --ink-3:#96908A;
+    --line:rgba(23,22,20,.12); --accent:#D9503A;
+    --serif:"Fraunces","Songti SC","Source Han Serif SC",Georgia,"SimSun",serif;
+    --sans:"Inter","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+  }
+  .wrap{max-width:1420px;margin:0 auto;padding:56px 40px 100px}
+
+  /* HERO */
+  .hero{border-bottom:1px solid var(--line);padding-bottom:34px;margin-bottom:44px}
+  .kicker{font-size:11px;letter-spacing:.18em;color:var(--ink-3);text-transform:uppercase;margin-bottom:14px}
+  h1{font-family:var(--serif);font-size:clamp(34px,4vw,52px);line-height:1.08;letter-spacing:-.025em;margin:0 0 14px;font-weight:600}
+  h1 em{font-style:normal;color:var(--accent)}
+  .lede{max-width:640px;color:var(--ink-2);font-size:15px;line-height:1.8;margin:0}
+  .meta{display:flex;gap:28px;margin-top:26px;flex-wrap:wrap}
+  .meta div{font-size:12px;color:var(--ink-3)}
+  .meta b{display:block;font-family:var(--serif);font-size:20px;color:var(--ink);font-weight:600;letter-spacing:-.01em}
+
+  /* 区块 */
+  .sec{margin-bottom:64px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+  .sec-head h2{font-family:var(--serif);font-size:22px;letter-spacing:-.02em;margin:0;font-weight:600}
+  .sec-head .num{font-size:10px;letter-spacing:.14em;color:var(--ink-3)}
+  .sec-head .tip{margin-left:auto;font-size:11.5px;color:var(--ink-3)}
+
+  /* 主题卡 */
+  .themes{display:flex;gap:22px;flex-wrap:wrap}
+  .card{width:420px}
+  .thumb{
+    width:420px;height:262px;border-radius:14px;overflow:hidden;position:relative;
+    border:1px solid var(--line);background:#fff;
+    box-shadow:0 1px 2px rgba(23,22,20,.04),0 22px 40px -32px rgba(23,22,20,.5);
+  }
+  .thumb iframe{width:1440px;height:900px;border:0;transform:scale(.2917);transform-origin:0 0;pointer-events:none;display:block}
+  .cap{display:flex;align-items:baseline;gap:10px;padding-top:12px}
+  .cap b{font-size:14.5px;font-weight:600;letter-spacing:-.01em}
+  .cap span{font-size:11.5px;color:var(--ink-3)}
+  .cap a{margin-left:auto;font-size:11.5px;color:var(--accent);text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px}
+  .swatches{display:flex;gap:3px;margin-top:8px}
+  .swatches i{width:16px;height:16px;border-radius:4px;display:block;border:1px solid rgba(0,0,0,.06)}
+
+  /* 手机 */
+  .phones{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start}
+  .phone-wrap{width:390px}
+  .phone{
+    width:390px;height:844px;border-radius:46px;padding:11px;background:#1B1A18;
+    box-shadow:0 2px 6px rgba(0,0,0,.18), 0 40px 80px -50px rgba(23,22,20,.85);
+    position:relative;
+  }
+  .phone iframe{width:368px;height:822px;border:0;border-radius:36px;display:block;background:#fff}
+  .phone-cap{padding:14px 4px 0;display:flex;align-items:baseline;gap:8px}
+  .phone-cap b{font-size:13.5px;font-weight:600}
+  .phone-cap span{font-size:11px;color:var(--ink-3)}
+
+  /* 平板 */
+  .tablets{display:flex;gap:30px;flex-wrap:wrap}
+  .tablet{width:459px}
+  .tablet .screen{
+    width:459px;height:612px;border-radius:18px;overflow:hidden;background:#111;
+    padding:8px;box-shadow:0 30px 60px -40px rgba(23,22,20,.8);position:relative;
+  }
+  .tablet iframe{width:834px;height:1112px;border:0;transform:scale(.53);transform-origin:0 0;border-radius:11px;display:block}
+
+  /* 说明 */
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px}
+  .note{border-top:1px solid var(--line);padding-top:14px}
+  .note b{display:block;font-size:13px;margin-bottom:6px}
+  .note p{margin:0;font-size:12.5px;line-height:1.75;color:var(--ink-2)}
+  .note code{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:rgba(23,22,20,.06);padding:1px 5px;border-radius:4px}
+
+  .try{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .try span{font-size:11.5px;color:var(--ink-2);border:1px solid var(--line);border-radius:99px;padding:5px 12px;background:#fff}
+  .foot{margin-top:70px;padding-top:20px;border-top:1px solid var(--line);font-size:11px;color:var(--ink-3);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  @media (max-width:1000px){ .wrap{padding:32px 20px 60px} .card,.thumb{width:100%} .thumb{height:auto;aspect-ratio:16/10} .thumb iframe{transform:scale(.62)} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="kicker">Sketch Plan · Design Review</div>
+    <h1>一套系统，<em>三种气质</em>，两端各自优化</h1>
+    <p class="lede">
+      同一份数据与同一套业务逻辑，跑在三个可随时切换的主题里；桌面、平板、手机各自拥有独立的布局与交互，
+      在各自设备上都能顺手。下面所有画面都是可交互的真实页面，不是设计稿。
+    </p>
+    <div class="meta">
+      <div><b>3</b>套主题</div>
+      <div><b>2</b>端布局体系</div>
+      <div><b>4</b>个核心视图</div>
+      <div><b>1</b>份数据</div>
+    </div>
+  </header>
+
+  <!-- 01 主题 -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="num">01</span><h2>桌面端 · 三套主题</h2>
+      <span class="tip">应用内右上角调色板图标即可切换，选择会记住</span>
+    </div>
+    <div class="themes">
+
+      <article class="card">
+        <div class="thumb"><iframe src="index.html?theme=ink&view=month&embed=1" scrolling="no" title="Ink Paper"></iframe></div>
+        <div class="cap"><b>Ink Paper</b><span>纸墨 · 手账</span><a href="index.html?theme=ink" target="_blank">打开 →</a></div>
+        <div class="swatches">
+          <i style="background:#FBF7EE"></i><i style="background:#EDE5D4"></i><i style="background:#211E19"></i><i style="background:#D9503A"></i>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"><iframe src="index.html?theme=pebble&view=month&embed=1" scrolling="no" title="Pebble"></iframe></div>
+        <div class="cap"><b>Pebble</b><span>柔彩 · 极简</span><a href="index.html?theme=pebble" target="_blank">打开 →</a></div>
+        <div class="swatches">
+          <i style="background:#FFFFFF"></i><i style="background:#F6F6FA"></i><i style="background:#5B6CFF"></i><i style="background:#E8789B"></i>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"><iframe src="index.html?theme=aurora&view=timeline&embed=1" scrolling="no" title="Aurora"></iframe></div>
+        <div class="cap"><b>Aurora</b><span>夜航 · 高饱和</span><a href="index.html?theme=aurora" target="_blank">打开 →</a></div>
+        <div class="swatches">
+          <i style="background:#0A0B0F"></i><i style="background:#1E222D"></i><i style="background:#8B5CF6"></i><i style="background:#22D3EE"></i>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 02 手机 -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="num">02</span><h2>移动端 · 今天 / 日历 / 进度</h2>
+      <span class="tip">1:1 真实尺寸，可直接点按</span>
+    </div>
+    <div class="phones">
+
+      <div class="phone-wrap">
+        <div class="phone"><iframe src="index.html?theme=ink&mview=today" scrolling="no" title="手机 · 今天"></iframe></div>
+        <div class="phone-cap"><b>今天</b><span>时间轨议程 · 点卡片即完成</span></div>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone"><iframe src="index.html?theme=pebble&mview=calendar" scrolling="no" title="手机 · 日历"></iframe></div>
+        <div class="phone-cap"><b>日历</b><span>月历 + 当日清单</span></div>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone"><iframe src="index.html?theme=aurora&mview=progress" scrolling="no" title="手机 · 进度"></iframe></div>
+        <div class="phone-cap"><b>进度</b><span>中长期任务节奏诊断</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 03 平板 -->
+  <section class="sec">
+    <div class="sec-head">
+      <span class="num">03</span><h2>平板 / 窄屏 · 分栏收缩</h2>
+      <span class="tip">834pt 竖屏：图标栏 + 主区，右栏收进详情页</span>
+    </div>
+    <div class="tablets">
+      <div class="tablet">
+        <div class="screen"><iframe src="index.html?theme=pebble&view=week" scrolling="no" title="平板 · 周表"></iframe></div>
+        <div class="phone-cap"><b>Pebble · 周表</b><span>平板竖屏</span></div>
+      </div>
+      <div class="tablet">
+        <div class="screen"><iframe src="index.html?theme=aurora&view=month" scrolling="no" title="平板 · 月历"></iframe></div>
+        <div class="phone-cap"><b>Aurora · 月历</b><span>平板竖屏</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 说明 -->
+  <section class="sec">
+    <div class="sec-head"><span class="num">04</span><h2>怎么评审</h2></div>
+    <div class="try">
+      <span>右上角调色板 → 切主题</span>
+      <span>双击日历空白 → 新建（可试重复）</span>
+      <span>左栏「批量排课」→ 看冲突提示</span>
+      <span>按 N / T / M / W / G / P 快捷键</span>
+      <span>拖动日程到别的日子（Alt 拖动＝复制）</span>
+      <span>点开一件日程 → 详情抽屉</span>
+      <span>右上角齿轮改偏好（每周起始日会立即生效）</span>
+      <span>手机端：点卡片勾完成</span>
+    </div>
+    <div class="notes" style="margin-top:34px">
+      <div class="note">
+        <b>三套主题不是换色</b>
+        <p>字体、圆角、阴影、密度、事件块的画法都不同：纸墨用衬线标题与不对称边框；柔彩用无边框的色块与大圆角；夜航用渐变块与等宽数字。切换时只换 token，DOM 与逻辑不变。</p>
+      </div>
+      <div class="note">
+        <b>两端共用一份数据</b>
+        <p>桌面与手机读写同一个 store（原型用 <code>localStorage</code>，正式版换成同一套 REST/Server Action）。断点 768 以下切到手机布局，768–1024 收成图标栏，1440 以上三栏。</p>
+      </div>
+      <div class="note">
+        <b>移动端不是缩小的桌面</b>
+        <p>手机端重排为「今天优先」：周条 + 时间轨议程 + 底部五个 Tab + 悬浮新建；点一下卡片即完成，没有 hover 态。平板保留侧栏，把右栏检查器收进详情。</p>
+      </div>
+      <div class="note">
+        <b>下一步</b>
+        <p>确认视觉方向后：补齐拖动改期、事件详情页、模板与自定义属性（参考 Notion 的 properties 与视图保存），再接真实后端与提醒投递。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>Sketch Plan · 交互原型 v1.0 · 2026-10</span>
+    <span>三套主题的关键色与组件规范见 DESIGN-SYSTEM.md</span>
+  </div>
+</div>
+</body>
+</html>

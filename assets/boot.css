@@ -1,0 +1,164 @@
+/* ============================================================
+   Sketch Plan · 进出场过渡
+   登入：登录页 → 应用，进度条 0 → 100，约 1 秒
+   登出：应用 → 登录页，进度条 100 → 0，同一套节奏倒着走
+   一套结构，三套皮肤；只消费 app.css 的令牌，不新增颜色
+   ============================================================ */
+
+/* ---------- 遮罩：默认不显示，只有 html.boot-on 时才出现 ---------- */
+html .boot {
+  display: none; opacity: 0;
+  position: fixed; inset: 0; z-index: 95;
+  place-items: center; padding: 24px;
+  background: var(--bg);
+  transition: opacity .2s ease;
+}
+/* 从登录页进来：首帧就是满不透明，省掉一次多余的淡入 */
+html.boot-on .boot { display: grid; opacity: 1; }
+/* 登录页当场铺开：0 → 1 淡入 .16s */
+html.boot-on .boot.fresh { opacity: 0; }
+html.boot-on .boot.fresh.in { opacity: 1; }
+/* 数据就绪后淡出 */
+html.boot-on .boot.out { opacity: 0; transition: opacity .22s ease; pointer-events: none; }
+
+/* ---------- 内容 ---------- */
+.boot-inner {
+  width: min(272px, 78vw);
+  display: flex; flex-direction: column; gap: 13px;
+  animation: fadeUp .42s cubic-bezier(.22, .9, .24, 1) both;
+}
+
+.boot-brand { display: flex; align-items: center; gap: 9px; }
+.boot-mark {
+  width: 28px; height: 28px; flex: none; border-radius: 9px;
+  background: var(--accent); color: var(--on-accent);
+  display: grid; place-items: center; box-shadow: var(--sh-1);
+}
+.boot-mark svg {
+  width: 17px; height: 17px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+/* 字形一笔画出来，和「把日程画在纸上」对上 */
+.boot-mark path {
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  animation: bootDraw .78s cubic-bezier(.22, .9, .24, 1) .05s forwards;
+}
+.boot-name {
+  font-family: var(--font-display); font-size: 13.5px; font-weight: 600;
+  letter-spacing: -.01em; line-height: 1.25;
+}
+.boot-name em {
+  display: block; font-style: normal; font-weight: 400;
+  font-size: 10px; color: var(--text-3); letter-spacing: .02em;
+}
+
+.boot-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.boot-text { font-family: var(--font-hand); font-size: 12.5px; color: var(--text-2); }
+.boot-pct {
+  font-family: var(--font-num); font-size: 10.5px; color: var(--text-3);
+  font-variant-numeric: tabular-nums; letter-spacing: .06em;
+}
+
+/* ---------- 进度条 ---------- */
+.boot-track {
+  position: relative; height: 6px; border-radius: var(--r-pill);
+  background: var(--surface-2); overflow: hidden; box-shadow: var(--sh-1);
+}
+.boot-fill {
+  position: relative; height: 100%; width: 0; overflow: hidden;
+  border-radius: inherit; background: var(--accent);
+  will-change: width;
+}
+/* 一道光扫过填充部分，让匀速增长也有流动感 */
+.boot-fill::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 12%, rgba(255, 255, 255, .55) 50%, transparent 88%);
+  transform: translateX(-100%);
+  animation: bootShine .95s cubic-bezier(.4, 0, .2, 1) .1s 2 both;
+}
+
+/* 第二页接手的遮罩已经是满格状态：入场动画一律不再重播，否则像闪了一下 */
+html.boot-on .boot:not(.fresh) .boot-inner { animation: none; }
+html.boot-on .boot:not(.fresh) .boot-mark path { animation: none; stroke-dashoffset: 0; }
+html.boot-on .boot:not(.fresh) .boot-fill::after { animation: none; opacity: 0; }
+
+@keyframes bootDraw { to { stroke-dashoffset: 0; } }
+@keyframes bootShine {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+/* ============================================================
+   三套皮肤
+   ============================================================ */
+
+/* 纸墨：点阵纸 + 描边轨道，像用笔在本子上划了一道 */
+[data-theme="ink"] .boot {
+  background-image: radial-gradient(var(--line-2) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+[data-theme="ink"] .boot-mark { border-radius: 8px; }
+[data-theme="ink"] .boot-track {
+  height: 7px; background: transparent;
+  border: 1.5px solid var(--text);
+  border-radius: 4px 3px 5px 2px / 3px 5px 2px 4px;
+  box-shadow: var(--sh-1);
+}
+[data-theme="ink"] .boot-fill { border-radius: 3px 2px 3px 1px; background: var(--accent); }
+[data-theme="ink"] .boot-text { font-size: 13px; color: var(--text); }
+
+/* 柔彩：胶囊轨道 + 渐变填充 + 柔和外发光 */
+[data-theme="pebble"] .boot-mark { border-radius: 10px; }
+[data-theme="pebble"] .boot-track { background: var(--surface-3); box-shadow: none; }
+[data-theme="pebble"] .boot-fill {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--accent) 85%, transparent);
+}
+
+/* 夜航：暗底极光 + 发光填充 */
+[data-theme="aurora"] .boot {
+  background:
+    radial-gradient(760px 460px at 16% 6%, rgba(139, 92, 246, .20), transparent 68%),
+    radial-gradient(620px 420px at 88% 96%, rgba(34, 211, 238, .12), transparent 70%),
+    var(--bg);
+}
+[data-theme="aurora"] .boot-mark {
+  border-radius: 9px; color: #0A0B0F;
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 18px -8px rgba(139, 92, 246, .8);
+}
+[data-theme="aurora"] .boot-track { background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--line); }
+[data-theme="aurora"] .boot-fill {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+[data-theme="aurora"] .boot-pct { color: var(--accent-2); }
+
+/* ============================================================
+   登出：同一张遮罩倒着放一遍
+   登入是「一笔画出来、进度填满」；登出是「把笔迹擦掉、进度退空」
+   节奏、时长、缓动曲线都与登入完全一致，方向相反
+   ============================================================ */
+
+/* 字形反向擦除：从完整一笔退回起笔处 */
+.boot.bye .boot-mark path {
+  stroke-dashoffset: 0;
+  animation: bootUndraw .78s cubic-bezier(.22, .9, .24, 1) .02s 1 forwards;
+}
+/* 高光改为从右往左扫，跟着退空的进度走 */
+.boot.bye .boot-fill::after {
+  transform: translateX(100%);
+  animation: bootShineBack .95s cubic-bezier(.4, 0, .2, 1) .1s 2 both;
+}
+
+@keyframes bootUndraw { to { stroke-dashoffset: 1; } }
+@keyframes bootShineBack {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+
+/* 登出后落地的登录页：遮罩已经是「退到底」的样子，动画一律不再重播 */
+html.boot-on .boot.bye:not(.fresh) .boot-inner { animation: none; }
+html.boot-on .boot.bye:not(.fresh) .boot-mark path { animation: none; stroke-dashoffset: 1; }
+html.boot-on .boot.bye:not(.fresh) .boot-fill::after { animation: none; opacity: 0; }
+

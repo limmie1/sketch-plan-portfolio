@@ -1,0 +1,57 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="tl-head">
+      <view class="tl-date">{{dateLabel}}</view>
+      <view class="tl-nav">
+        <view class="cal-nav" data-d="-1" bindtap="shift">‹</view>
+        <view class="cal-nav" data-d="1" bindtap="shift">›</view>
+      </view>
+    </view>
+
+    <view class="chips">
+      <view
+        class="chip {{item.k === date ? 'on' : ''}}"
+        wx:for="{{chips}}"
+        wx:key="k"
+        data-k="{{item.k}}"
+        bindtap="pickDay"
+      >{{item.label}}</view>
+    </view>
+
+    <view class="tl-sub" wx:if="{{count}}">{{count}} 件事 · 已完成 {{doneCount}} 件</view>
+    <view class="tl-sub" wx:else>这天还没有安排</view>
+
+    <scroll-view class="tl-scroll" scroll-y>
+      <view class="tl-body" style="height:{{hours.length * 100}}rpx">
+        <view class="tl-hour" wx:for="{{hours}}" wx:key="*this" style="top:{{index * 100}}rpx">
+          <text class="tl-h">{{item}}</text>
+          <view class="tl-rule"></view>
+        </view>
+
+        <view class="tl-now" wx:if="{{nowTop >= 0}}" style="top:{{nowTop}}rpx"></view>
+
+        <view
+          class="tl-block {{item.done ? 'done' : ''}}"
+          wx:for="{{blocks}}"
+          wx:key="id"
+          style="top:{{item.top}}rpx;height:{{item.h}}rpx"
+          data-id="{{item.id}}"
+          bindtap="tapBlock"
+        >
+          <view class="tl-bar" style="background:{{item.color}}"></view>
+          <view class="tl-b-main">
+            <view class="tl-b-t">{{item.title}}</view>
+            <view class="tl-b-s">{{item.time}} · {{item.catName}}</view>
+          </view>
+          <view class="tl-b-ck" wx:if="{{item.done}}">✓</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="tl-fab" bindtap="addHere">＋ 记一件</view>
+
+  </view>
+</view>

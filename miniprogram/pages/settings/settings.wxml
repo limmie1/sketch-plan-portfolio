@@ -1,0 +1,87 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">设置</view>
+      <view class="hero-t">调成顺手的样子</view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">外观</text></view>
+    <view class="seg">
+      <view
+        class="seg-item {{theme === item.id ? 'on' : ''}}"
+        wx:for="{{themes}}"
+        wx:key="id"
+        data-t="{{item.id}}"
+        bindtap="setTheme"
+      >
+        <view class="swatch {{item.id}}"></view>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">习惯</text></view>
+    <view class="card">
+      <view class="field">
+        <view class="field-k">怎么称呼你</view>
+        <input class="input" value="{{name}}" bindinput="onName" maxlength="12" placeholder="我" placeholder-class="ph" />
+      </view>
+
+      <picker mode="selector" range="{{weekOpts}}" value="{{weekStart === 0 ? 1 : 0}}" bindchange="onWeekStart">
+        <view class="kv">
+          <text>一周从哪天开始</text>
+          <em>{{weekStartTxt}} ›</em>
+        </view>
+      </picker>
+
+      <picker mode="selector" range="{{remOpts}}" value="{{remindIdx}}" bindchange="onRemind">
+        <view class="kv">
+          <text>默认提醒</text>
+          <em>{{remindTxt}} ›</em>
+        </view>
+      </picker>
+
+      <view class="kv">
+        <text>过期日程自动算完成</text>
+        <switch checked="{{autoComplete}}" bindchange="onAuto" color="#D9503A" />
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">账号</text></view>
+    <view class="card">
+      <view class="kv" style="border-bottom:none">
+        <text>登录状态</text>
+        <em>{{cloudReady ? '微信云开发' : '本机模式'}}</em>
+      </view>
+      <view class="lg-oid" wx:if="{{user}}">
+        <text class="lg-k">OPENID</text>
+        <text class="lg-v">…{{userShort}}</text>
+      </view>
+      <view class="note" wx:if="{{loginErr}}">{{loginErr}}</view>
+      <view class="note">登录走微信官方链路：wx.login 换 code，云函数用 getWXContext 取 OPENID。小程序不建密码、不收集手机号。数据存在本机，与网页版互不相通。</view>
+      <view class="lg-acts">
+        <view class="btn sm" bindtap="relogin">重新登录</view>
+        <view class="btn sm ghost" bindtap="logout" wx:if="{{user}}">退出登录</view>
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">数据</text></view>
+    <view class="card">
+      <view class="kv" bindtap="loadDemo">
+        <text>载入示例数据</text>
+        <em>覆盖当前 ›</em>
+      </view>
+      <view class="kv" bindtap="clearAll">
+        <text class="danger-tx">清空本机数据</text>
+        <em>不可恢复 ›</em>
+      </view>
+      <view class="kv" bindtap="about">
+        <text>关于 Sketch Plan</text>
+        <em>›</em>
+      </view>
+    </view>
+
+  </view>
+</view>

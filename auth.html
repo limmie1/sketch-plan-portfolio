@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="ink">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#FBF7EE" />
+<title>Sketch Plan · 登录</title>
+<link rel="icon" href="assets/icon.svg?v=1.9.0" type="image/svg+xml" />
+<link rel="alternate icon" href="assets/favicon-32.png?v=1.9.0" sizes="32x32" type="image/png" />
+<link rel="alternate icon" href="assets/favicon-16.png?v=1.9.0" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1.9.0" sizes="180x180" />
+<link rel="manifest" href="manifest.webmanifest?v=1.9.0" />
+<link rel="stylesheet" href="assets/app.css?v=1.9.0" />
+<link rel="stylesheet" href="assets/auth.css?v=1.9.0" />
+<link rel="stylesheet" href="assets/boot.css?v=1.9.0" />
+<script>
+/* 只有从应用里退出登录过来才铺遮罩：直接打开登录页、刷新都不受影响 */
+try {
+  sessionStorage.removeItem('sketchplan.booting');
+  var _lv = +sessionStorage.getItem('sketchplan.leaving');
+  if (_lv && Date.now() - _lv < 8000) document.documentElement.classList.add('boot-on', 'boot-bye');
+} catch (e) {}
+</script>
+</head>
+<body>
+
+<!-- 登出遮罩：登录页这张是应用里那张的收尾，进度条已经退到底 -->
+<div class="boot bye" data-mode="out" role="status" aria-live="polite" aria-label="正在退出登录">
+  <div class="boot-inner">
+    <div class="boot-brand">
+      <div class="boot-mark">
+        <svg viewBox="0 0 24 24"><path pathLength="1" d="M4 6.5h16M5.5 6v13h13V6M9 10l2.6 3.1L16 8.2"/></svg>
+      </div>
+      <div class="boot-name">Sketch Plan<em>把日程画在纸上</em></div>
+    </div>
+    <div class="boot-row">
+      <span class="boot-text">正在退出登录</span>
+      <span class="boot-pct">0%</span>
+    </div>
+    <div class="boot-track"><div class="boot-fill" style="width:0"></div></div>
+  </div>
+</div>
+
+<div class="dev-switch" id="devSwitch">
+  <span>界面</span>
+  <button data-d="auto" class="on">自动</button>
+  <button data-d="desktop">电脑</button>
+  <button data-d="phone">手机</button>
+</div>
+
+<div class="auth">
+  <!-- 左侧品牌区 -->
+  <aside class="auth-side">
+    <div class="auth-brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24"><path d="M4 6.5h16M5.5 6v13h13V6M9 10l2.6 3.1L16 8.2"/></svg>
+      </div>
+      <div>
+        <b>Sketch Plan</b>
+        <em>把日程画在纸上</em>
+      </div>
+    </div>
+
+    <h1>今天要做的，<br>就写在今天这页。</h1>
+    <p class="auth-lede">
+      一张月历、一条时间轴、几件正在推进的事。<br>
+      不催促，也不评判，只帮你把时间看清楚。
+    </p>
+
+    <ul class="auth-points">
+      <li><i>01</i><span>月历 / 周表 / 时间轴，同一份数据三种看法</span></li>
+      <li><i>02</i><span>长期目标带进度，落后了会算给你看</span></li>
+      <li><i>03</i><span>没做完就顺延，写一句为什么就好</span></li>
+    </ul>
+
+    <div class="auth-theme">
+      <span>外观</span>
+      <button data-t="ink" class="on">纸墨</button>
+      <button data-t="pebble">柔彩</button>
+      <button data-t="aurora">夜航</button>
+    </div>
+  </aside>
+
+  <!-- 右侧表单 -->
+  <main class="auth-main">
+    <div class="auth-card">
+      <div id="sessionBar" class="auth-session" style="display:none">
+        <span id="sessionText"></span>
+        <a href="index.html">直接进入 →</a>
+      </div>
+
+      <div class="auth-tabs" role="tablist">
+        <button class="on" data-mode="login" role="tab">登录</button>
+        <button data-mode="register" role="tab">注册</button>
+      </div>
+
+      <!-- 登录 -->
+      <form id="loginForm" class="auth-form" autocomplete="on" novalidate>
+        <h2>欢迎回来</h2>
+        <p class="auth-sub">继续你昨天写下的那一页。</p>
+
+        <label class="fld">
+          <span>用户名</span>
+          <input id="loginName" name="username" autocomplete="username" placeholder="你的用户名" />
+        </label>
+        <label class="fld">
+          <span>密码</span>
+          <input id="loginPass" type="password" name="password" autocomplete="current-password" placeholder="至少 8 位" />
+        </label>
+
+        <div class="auth-row">
+          <label class="chk"><input type="checkbox" id="remember" checked /><span>记住我</span></label>
+          <span class="auth-note">忘记密码请让管理员在服务器上重置</span>
+        </div>
+
+        <button class="btn primary auth-submit" type="submit">登录</button>
+        <p class="auth-err" id="loginErr"></p>
+
+        <div class="auth-demo">
+          演示账号：<b>林小满</b> / <b>sketchplan</b>
+        </div>
+      </form>
+
+      <!-- 注册 -->
+      <form id="registerForm" class="auth-form" style="display:none" novalidate>
+        <h2>建一个账号</h2>
+        <p class="auth-sub">不需要邮箱，想好用户名和密码就能开始。</p>
+
+        <label class="fld">
+          <span>用户名</span>
+          <input id="regName" name="username" autocomplete="username" placeholder="3–20 位，字母 / 数字 / 中文" />
+          <em class="fld-hint" id="hintName"></em>
+        </label>
+        <label class="fld">
+          <span>密码</span>
+          <input id="regPass" type="password" name="new-password" autocomplete="new-password" placeholder="至少 8 位，含字母和数字" />
+          <em class="fld-hint" id="hintPass"></em>
+        </label>
+        <label class="fld">
+          <span>确认密码</span>
+          <input id="regPass2" type="password" autocomplete="new-password" placeholder="再输一次" />
+          <em class="fld-hint" id="hintPass2"></em>
+        </label>
+
+        <button class="btn primary auth-submit" type="submit">注册并开始</button>
+        <p class="auth-err" id="regErr"></p>
+
+        <div class="auth-demo">
+          忘记密码没有邮件找回，需要管理员在服务器上重置。
+        </div>
+      </form>
+
+      <p class="auth-foot">
+        账号数据云端同步，手机与电脑共用同一份 · Sketch Plan v1.9.0
+      </p>
+    </div>
+  </main>
+</div>
+
+<script src="assets/boot.js?v=1.9.0"></script>
+<script>
+(function () {
+  'use strict';
+
+  var USERS = 'sketchplan.users';
+  var SESSION = 'sketchplan.session';
+  var THEME = 'sketchplan.theme';
+
+  /* ---- 演示用弱哈希（正式版必须放服务端 + argon2） ---- */
+  function hash(str) {
+    var h1 = 0x811c9dc5, h2 = 0x1000193;
+    for (var i = 0; i < str.length; i++) {
+      var c = str.charCodeAt(i);
+      h1 = (h1 ^ c) * 0x01000193 >>> 0;
+      h2 = (h2 + c * 31 + (h2 << 5)) >>> 0;
+    }
+    return ('0000000' + h1.toString(16)).slice(-8) + ('0000000' + h2.toString(16)).slice(-8);
+  }
+
+  function readUsers() {
+    try { return JSON.parse(localStorage.getItem(USERS) || '[]'); } catch (e) { return []; }
+  }
+  function saveUsers(list) {
+    try { localStorage.setItem(USERS, JSON.stringify(list)); } catch (e) {}
+  }
+  function seed() {
+    var list = readUsers();
+    if (!list.length) {
+      list.push({ name: '林小满', pass: hash('sketchplan'), at: Date.now() });
+      saveUsers(list);
+    }
+  }
+
+  /* ---- 界面形态 ---- */
+  var DEV = 'sketchplan.device';
+  function applyDevice(m) {
+    document.documentElement.dataset.device = m;
+    document.querySelectorAll('#devSwitch button').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.d === m);
+    });
+  }
+  document.querySelectorAll('#devSwitch button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      localStorage.setItem(DEV, b.dataset.d);
+      applyDevice(b.dataset.d);
+    });
+  });
+  var qDev = null;
+  try { qDev = new URLSearchParams(location.search).get('device'); } catch (e) {}
+  applyDevice(qDev || localStorage.getItem(DEV) || 'auto');
+
+  /* ---- 外观 ---- */
+  var saved = localStorage.getItem(THEME);
+  try { var q = new URLSearchParams(location.search).get('theme'); if (q) saved = q; } catch (e) {}
+  if (saved) document.documentElement.dataset.theme = saved;
+
+  document.querySelectorAll('.auth-theme button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.documentElement.dataset.theme = b.dataset.t;
+      localStorage.setItem(THEME, b.dataset.t);
+      document.querySelectorAll('.auth-theme button').forEach(function (x) {
+        x.classList.toggle('on', x === b);
+      });
+    });
+  });
+  document.querySelectorAll('.auth-theme button').forEach(function (x) {
+    x.classList.toggle('on', x.dataset.t === document.documentElement.dataset.theme);
+  });
+
+  /* ---- 会话提示 ---- */
+  try {
+    var sess = JSON.parse(localStorage.getItem(SESSION) || 'null');
+    if (sess && sess.name) {
+      document.getElementById('sessionBar').style.display = 'flex';
+      document.getElementById('sessionText').textContent = '当前已登录：' + sess.name;
+    }
+  } catch (e) {}
+
+  /* ---- 表单 ---- */
+  var loginForm = document.getElementById('loginForm');
+  var regForm = document.getElementById('registerForm');
+
+  /* ---- 登录 / 注册 切换 ---- */
+  function switchMode(mode) {
+    var isLogin = mode !== 'register';
+    document.querySelectorAll('.auth-tabs button').forEach(function (x) {
+      x.classList.toggle('on', x.dataset.mode === (isLogin ? 'login' : 'register'));
+    });
+    loginForm.style.display = isLogin ? 'flex' : 'none';
+    regForm.style.display = isLogin ? 'none' : 'flex';
+    var el = document.getElementById(isLogin ? 'loginName' : 'regName');
+    if (el) { try { el.focus(); } catch (e) {} }
+  }
+  document.querySelectorAll('.auth-tabs button').forEach(function (b) {
+    b.addEventListener('click', function () { switchMode(b.dataset.mode); });
+  });
+
+  function setErr(el, msg) {
+    el.textContent = msg || '';
+    el.classList.toggle('show', !!msg);
+  }
+
+  /* ---- 真实接口优先，没有后端时退回本地演示 ---- */
+  function apiPost(path, body) {
+    return fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) {
+        return { status: r.status, data: d };
+      });
+    });
+  }
+
+  /* ---- 进入应用：先铺一层载入过渡，别让画面硬切过去 ---- */
+  function enterApp() {
+    if (window.Boot && Boot.leave) { Boot.leave('index.html'); return; }
+    location.href = 'index.html';
+  }
+
+  /* 「直接进入 →」也走同一套过渡 */
+  document.querySelectorAll('.auth-session a').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;   // 允许新标签页打开
+      ev.preventDefault();
+      enterApp();
+    });
+  });
+
+  function localLogin(name, pass, err) {
+    var u = readUsers().filter(function (x) { return x.name === name; })[0];
+    if (!u) { setErr(err, '这个用户名不存在'); return; }
+    if (u.pass !== hash(pass)) { setErr(err, '密码不对，再试一次'); document.getElementById('loginPass').focus(); return; }
+    setErr(err, '');
+    localStorage.setItem(SESSION, JSON.stringify({ name: u.name, at: Date.now() }));
+    enterApp();
+  }
+
+  function localRegister(name, pass, err) {
+    if (readUsers().some(function (x) { return x.name === name; })) { setErr(err, '这个用户名已经被占用了'); return; }
+    var list = readUsers();
+    list.push({ name: name, pass: hash(pass), at: Date.now() });
+    saveUsers(list);
+    setErr(err, '');
+    localStorage.setItem(SESSION, JSON.stringify({ name: name, at: Date.now() }));
+    enterApp();
+  }
+
+  /* ---- 登录 ---- */
+  loginForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var err = document.getElementById('loginErr');
+    var name = document.getElementById('loginName').value.trim();
+    var pass = document.getElementById('loginPass').value;
+    if (!name || !pass) { setErr(err, '请输入用户名和密码'); return; }
+    setErr(err, '');
+    var btn = loginForm.querySelector('button[type=submit]');
+    if (btn) btn.disabled = true;
+    apiPost('/api/auth/login', { username: name, password: pass }).then(function (r) {
+      if (btn) btn.disabled = false;
+      if (r.status === 200 && r.data && r.data.user) { enterApp(); return; }
+      if (r.status === 401) { setErr(err, (r.data && r.data.error) || '用户名或密码不对'); return; }
+      if (r.status === 429) { setErr(err, (r.data && r.data.error) || '尝试太频繁，请稍后再试'); return; }
+      if (r.status === 404 || r.status === 405 || !r.data || !r.data.error) { localLogin(name, pass, err); return; }
+      setErr(err, r.data.error || '登录失败，请稍后重试');
+    }).catch(function () {
+      if (btn) btn.disabled = false;
+      localLogin(name, pass, err);          // 没有后端（双击打开页面）时走本地演示
+    });
+  });
+
+  /* ---- 注册 ---- */
+  var reName = /^[\u4e00-\u9fa5A-Za-z0-9_]{3,20}$/;
+  function checkPass(p) {
+    return p.length >= 8 && /[A-Za-z]/.test(p) && /\d/.test(p);
+  }
+
+  regForm.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var err = document.getElementById('regErr');
+    var name = document.getElementById('regName').value.trim();
+    var p1 = document.getElementById('regPass').value;
+    var p2 = document.getElementById('regPass2').value;
+
+    if (!reName.test(name)) { setErr(err, '用户名 3–20 位，只能用中文、字母、数字、下划线'); return; }
+    if (!checkPass(p1)) { setErr(err, '密码至少 8 位，且同时包含字母和数字'); return; }
+    if (p1 !== p2) { setErr(err, '两次输入的密码不一致'); document.getElementById('regPass2').focus(); return; }
+    setErr(err, '');
+    var btn = regForm.querySelector('button[type=submit]');
+    if (btn) btn.disabled = true;
+    apiPost('/api/auth/register', { username: name, password: p1 }).then(function (r) {
+      if (r.status === 201) { enterApp(); return; }
+      if (btn) btn.disabled = false;
+      if (r.status === 404 || r.status === 405 || r.status === 410) { localRegister(name, p1, err); return; }
+      setErr(err, (r.data && r.data.error) || '注册失败，请稍后重试');
+    }).catch(function () {
+      if (btn) btn.disabled = false;
+      localRegister(name, p1, err);         // 没有后端（直接打开 html）时走本地演示
+    });
+  });
+
+  /* 实时校验提示 */
+  var hints = [
+    ['regName', 'hintName', function (v) { return !v || reName.test(v) ? '' : '3–20 位，中文 / 字母 / 数字 / 下划线'; }],
+    ['regPass', 'hintPass', function (v) { return !v || checkPass(v) ? '' : '至少 8 位，含字母和数字'; }],
+    ['regPass2', 'hintPass2', function (v) { return !v || v === document.getElementById('regPass').value ? '' : '两次输入不一致'; }]
+  ];
+  hints.forEach(function (h) {
+    var input = document.getElementById(h[0]);
+    var hint = document.getElementById(h[1]);
+    input.addEventListener('input', function () {
+      var msg = h[2](input.value);
+      hint.textContent = msg;
+      hint.classList.toggle('bad', !!msg);
+    });
+  });
+
+  /* 支持 #register 直接进注册页 */
+  if (location.hash === '#register') switchMode('register');
+
+  seed();
+})();
+</script>
+</body>
+</html>

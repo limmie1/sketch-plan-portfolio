@@ -1,0 +1,19 @@
+/* 「今天」只用颜色和字重区分，避免和下方日程圆点挤在一起 */
+.cal-cell.today .cal-day {
+  position: relative;
+}
+.cal-cell.today .cal-day::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6rpx;
+  width: 20rpx;
+  height: 3rpx;
+  margin-left: -10rpx;
+  border-radius: 3rpx;
+  background: var(--accent);
+}
+.cal-cell.today.sel .cal-day::after {
+  background: var(--on-accent);
+  opacity: .7;
+}

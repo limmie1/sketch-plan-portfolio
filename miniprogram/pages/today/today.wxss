@@ -1,0 +1,24 @@
+.row-hover { transform: scale(.995); }
+.empty { white-space: pre-wrap; }
+
+/* ---------- 快捷入口 ---------- */
+.qa {
+  display: flex;
+  gap: 14rpx;
+  margin: 4rpx 0 8rpx;
+}
+.qa-item {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25rpx;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1rpx solid var(--line);
+  border-radius: 18rpx;
+}
+.theme-ink .qa-item { border: 2rpx solid var(--line); border-radius: 14rpx 8rpx 16rpx 6rpx; }
+.theme-pebble .qa-item { border-radius: 99rpx; }
+.qa-item:active { opacity: .7; }

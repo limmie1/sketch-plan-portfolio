@@ -1,0 +1,30 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">分类 · {{total}} 个</view>
+      <view class="hero-t">给事情分个类</view>
+      <view class="hero-sub">分类只影响颜色和统计，删掉不会删掉日程。</view>
+    </view>
+
+    <view class="sec-h">
+      <text class="sec-t">全部分类</text>
+      <view class="sec-a" bindtap="create">＋ 新建</view>
+    </view>
+
+    <view class="cat" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="more">
+      <view class="cat-sw" style="background:{{item.color}}"></view>
+      <view class="cat-main">
+        <view class="cat-t">{{item.name}}<text class="cat-b" wx:if="{{item.builtin}}">内置</text></view>
+        <view class="cat-d" wx:if="{{item.desc}}">{{item.desc}}</view>
+        <view class="cat-u">日程 {{item.events}} · 计划 {{item.tasks}} · 工作集 {{item.collections}}</view>
+      </view>
+      <view class="cat-more">⋯</view>
+    </view>
+
+    <view class="note">轻点一个分类可以改名、改描述或删除；删除时会先把里面的内容挪到别的分类。</view>
+
+  </view>
+</view>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="ink">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#FBF7EE" />
+<title>Sketch Plan · 日程规划</title>
+<link rel="icon" href="assets/icon.svg?v=1.9.0" type="image/svg+xml" />
+<link rel="alternate icon" href="assets/favicon-32.png?v=1.9.0" sizes="32x32" type="image/png" />
+<link rel="alternate icon" href="assets/favicon-16.png?v=1.9.0" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1.9.0" sizes="180x180" />
+<link rel="manifest" href="manifest.webmanifest?v=1.9.0" />
+<link rel="stylesheet" href="assets/app.css?v=1.9.0" />
+<link rel="stylesheet" href="assets/review.css?v=1.9.0" />
+<link rel="stylesheet" href="assets/boot.css?v=1.9.0" />
+<script>
+/* 只有从登录页过来才铺载入遮罩：直接打开首页、刷新都不受影响 */
+try {
+  sessionStorage.removeItem('sketchplan.leaving');
+  var _bt = +sessionStorage.getItem('sketchplan.booting');
+  if (_bt && Date.now() - _bt < 8000) document.documentElement.classList.add('boot-on');
+} catch (e) {}
+</script>
+</head>
+<body>
+
+<!-- 载入遮罩：登录页那张的延续，首屏就绪后淡出 -->
+<div class="boot" data-mode="in" role="status" aria-live="polite" aria-label="正在载入数据">
+  <div class="boot-inner">
+    <div class="boot-brand">
+      <div class="boot-mark">
+        <svg viewBox="0 0 24 24"><path pathLength="1" d="M4 6.5h16M5.5 6v13h13V6M9 10l2.6 3.1L16 8.2"/></svg>
+      </div>
+      <div class="boot-name">Sketch Plan<em>把日程画在纸上</em></div>
+    </div>
+    <div class="boot-row">
+      <span class="boot-text">正在载入数据</span>
+      <span class="boot-pct">100%</span>
+    </div>
+    <div class="boot-track"><div class="boot-fill" style="width:100%"></div></div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- ==================== 左栏 ==================== -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24"><path d="M4 6.5h16M5.5 6v13h13V6M9 10l2.6 3.1L16 8.2"/></svg>
+      </div>
+      <div class="txt">
+        <b>Sketch Plan</b>
+        <em>把日程画在纸上</em>
+      </div>
+    </div>
+
+    <nav class="nav" id="nav">
+      <button class="nav-item on" data-view="month" onclick="App.setView('month')">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/></svg>
+        <span class="lbl">月历</span><span class="k">M</span>
+      </button>
+      <button class="nav-item" data-view="week" onclick="App.setView('week')">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M9 10v10.5M15 10v10.5"/></svg>
+        <span class="lbl">周表</span><span class="k">W</span>
+      </button>
+      <button class="nav-item" data-view="timeline" onclick="App.setView('timeline')">
+        <svg viewBox="0 0 24 24"><path d="M4 7.5h9M4 12h13M4 16.5h6"/><circle cx="17.5" cy="7.5" r="1.6"/><circle cx="10" cy="16.5" r="1.6"/></svg>
+        <span class="lbl">时间轴</span><span class="k">G</span>
+      </button>
+      <button class="nav-item" data-view="progress" onclick="App.setView('progress')">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="10" width="17" height="6" rx="3"/><path d="M6.5 13h6"/></svg>
+        <span class="lbl">进度</span><span class="k">P</span>
+      </button>
+      <button class="nav-item" data-view="collections" onclick="App.setView('collections')">
+        <svg viewBox="0 0 24 24"><path d="M4 7.5c0-1 .8-1.8 1.8-1.8h3.4l1.6 2h7.4c1 0 1.8.8 1.8 1.8v7.7c0 1-.8 1.8-1.8 1.8H5.8c-1 0-1.8-.8-1.8-1.8z"/><path d="M4 11h16"/></svg>
+        <span class="lbl">工作集</span><span class="k">C</span>
+      </button>
+      <button class="nav-item" data-view="cats" onclick="App.setView('cats')">
+        <svg viewBox="0 0 24 24"><path d="M4.5 5.5h7l8 8-6 6-8-8z"/><circle cx="8.4" cy="8.4" r="1.2"/></svg>
+        <span class="lbl">分类</span><span class="k">L</span>
+      </button>
+      <button class="nav-item" data-view="review" onclick="App.setView('review')">
+        <svg viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="16" rx="2"/><path d="M8 9h8M8 12.5h8M8 16h5"/></svg>
+        <span class="lbl">复盘</span><span class="k">R</span>
+      </button>
+      <button class="nav-item" onclick="App.openNote()">
+        <svg viewBox="0 0 24 24"><path d="M5 4.5h14v15H5z"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></svg>
+        <span class="lbl">便签</span><span class="k">B</span>
+      </button>
+      <button class="nav-item" data-view="me" onclick="App.setView('me')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 20c1.2-3.6 3.9-5.4 7.2-5.4s6 1.8 7.2 5.4"/></svg>
+        <span class="lbl">我的</span><span class="k">,</span>
+      </button>
+      <button class="nav-item" onclick="App.openBatch()">
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><path d="M16.5 13.6v5M14 16.1h5"/></svg>
+        <span class="lbl">批量排课</span>
+      </button>
+    </nav>
+
+    <div class="rail-section">
+      <div class="rail-label">本月</div>
+      <div class="mini-cal" id="miniCal"></div>
+    </div>
+
+    <div class="rail-section">
+      <div class="rail-label">分类</div>
+      <div class="cat-list" id="catList"></div>
+    </div>
+
+    <div class="rail-foot" onclick="App.openSettings()" title="偏好设置" style="cursor:pointer">
+      <div class="avatar" id="avatar">林</div>
+      <div class="who">
+        <span id="userName">林小满</span>
+        <em>已登录</em>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== 主区 ==================== -->
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title" id="pageTitle">十月<small>2026</small></div>
+      <div class="grow"></div>
+      <div class="hide-m" style="display:flex;align-items:center;gap:4px">
+        <button class="btn ghost icon" onclick="App.step(-1)" title="上一页" aria-label="上一页">
+          <svg viewBox="0 0 24 24"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
+        </button>
+        <button class="btn ghost sm" onclick="App.goToday()">今天</button>
+        <button class="btn ghost icon" onclick="App.step(1)" title="下一页" aria-label="下一页">
+          <svg viewBox="0 0 24 24"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg>
+        </button>
+      </div>
+
+      <div class="seg hide-m" id="seg">
+        <button data-view="month" class="on" onclick="App.setView('month')">月</button>
+        <button data-view="week" onclick="App.setView('week')">周</button>
+        <button data-view="timeline" onclick="App.setView('timeline')">时间轴</button>
+        <button data-view="progress" onclick="App.setView('progress')">进度</button>
+      </div>
+
+      <div class="search hide-m">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg>
+        <input id="searchInput" placeholder="搜索日程  /" autocomplete="off" />
+        <div class="results" id="results"></div>
+      </div>
+
+      <button class="btn hide-m" onclick="App.openCapture()" title="一句话速记  Q">
+        <svg viewBox="0 0 24 24"><path d="M13 3.5L5.5 13H11l-1 7.5L18 10h-5.5z"/></svg><span class="tx">速记</span>
+      </button>
+      <button class="btn primary hide-m" onclick="App.openEvent()">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>新建
+      </button>
+
+      <button class="btn ghost icon" id="btnMSearch" onclick="App.mSearch()" title="搜索日程" aria-label="搜索日程">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg>
+      </button>
+
+      <button class="btn ghost icon" onclick="App.openSettings()" title="偏好设置" aria-label="偏好设置">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8L6.2 6.2"/></svg>
+      </button>
+
+      <button class="btn ghost icon" onclick="App.openAppearance()" title="外观与主题" aria-label="外观与主题">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="9" cy="9.5" r="1.1"/><circle cx="15" cy="9.5" r="1.1"/><circle cx="9.5" cy="15" r="1.1"/></svg>
+      </button>
+    </header>
+
+    <div class="content" id="content">
+      <!-- 移动端二级页（工作集 / 复盘）返回条 -->
+      <div class="m-back" id="mBack">
+        <button class="btn ghost sm" onclick="App.goMobile('mine')">
+          <svg viewBox="0 0 24 24"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>返回「我的」
+        </button>
+        <span class="m-back-t" id="mBackTitle">工作集</span>
+        <div class="grow"></div>
+        <button class="btn ghost sm" onclick="App.openCapture()">速记</button>
+      </div>
+
+      <!-- 桌面端视图 -->
+      <section class="view on d-view" id="v-month"></section>
+      <section class="view d-view" id="v-week"></section>
+      <section class="view d-view" id="v-timeline"></section>
+      <section class="view d-view" id="v-progress"></section>
+      <section class="view d-view" id="v-collections"></section>
+      <section class="view d-view" id="v-cats"></section>
+      <section class="view d-view" id="v-review"></section>
+      <section class="view d-view" id="v-me"></section>
+
+      <!-- 移动端视图 -->
+      <section class="view on m-view" id="vm-today"></section>
+      <section class="view m-view" id="vm-calendar"></section>
+      <section class="view m-view" id="vm-timeline"></section>
+      <section class="view m-view" id="vm-progress"></section>
+      <section class="view m-view" id="vm-collections"></section>
+      <section class="view m-view" id="vm-cats"></section>
+      <section class="view m-view" id="vm-review"></section>
+      <section class="view m-view" id="vm-mine"></section>
+    </div>
+  </main>
+
+  <!-- ==================== 右栏 ==================== -->
+  <aside class="insp">
+    <div class="insp-head">
+      <div class="insp-date" id="inspDate">10月17日<em>周六</em></div>
+      <div class="insp-sub" id="inspSub">4 件事 · 约 4 小时</div>
+    </div>
+    <div class="insp-body">
+      <div class="block">
+        <h4>当日安排</h4>
+        <div id="inspEvents"></div>
+        <button class="btn ghost sm" style="margin-top:8px" onclick="App.openEvent()">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>加一件事
+        </button>
+      </div>
+      <div class="block">
+        <h4>提醒</h4>
+        <div id="inspReminders"></div>
+      </div>
+      <div class="block">
+        <h4>进行中的进度</h4>
+        <div id="inspProgress"></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ==================== 移动端 Tab ==================== -->
+<nav class="tabbar" id="tabbar">
+  <button class="tab on" data-mview="today" onclick="App.setMView('today')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>今天
+  </button>
+  <button class="tab" data-mview="calendar" onclick="App.setMView('calendar')">
+    <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3.5v3M16 3.5v3"/></svg>日历
+  </button>
+  <button class="tab" data-mview="timeline" onclick="App.setMView('timeline')">
+    <svg viewBox="0 0 24 24"><path d="M4 7.5h9M4 12h13M4 16.5h6"/><circle cx="17.5" cy="7.5" r="1.6"/></svg>时间轴
+  </button>
+  <button class="tab" data-mview="progress" onclick="App.setMView('progress')">
+    <svg viewBox="0 0 24 24"><rect x="3.5" y="10" width="17" height="6" rx="3"/><path d="M6.5 13h6"/></svg>进度
+  </button>
+  <button class="tab" data-mview="mine" onclick="App.setMView('mine')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.5"/><path d="M4.5 20c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg>我的
+  </button>
+</nav>
+
+<button class="fab-note" onclick="App.openNote()" aria-label="便签">
+  <svg viewBox="0 0 24 24"><path d="M5 4.5h14v15H5z"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></svg><span>便签</span>
+</button>
+
+<button class="fab-mini" onclick="App.openCapture()" aria-label="一句话速记">
+  <svg viewBox="0 0 24 24"><path d="M13 3.5L5.5 13H11l-1 7.5L18 10h-5.5z"/></svg><span>速记</span>
+</button>
+
+<button class="fab" onclick="App.openEvent()" aria-label="新建日程">
+  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<div class="modal-root" id="modalRoot"></div>
+
+<div class="detail-root" id="detailRoot">
+  <div class="detail-scrim" onclick="App.closeDetail()"></div>
+  <aside class="detail" id="detailPanel" role="dialog" aria-label="日程详情"></aside>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/boot.js?v=1.9.0"></script>
+<script src="assets/store.js?v=1.9.0"></script>
+<script src="assets/parse.js?v=1.9.0"></script>
+<script src="assets/review.js?v=1.9.0"></script>
+<script src="assets/app.js?v=1.9.0"></script>
+<script src="assets/sync.js?v=1.9.0"></script>
+</body>
+</html>

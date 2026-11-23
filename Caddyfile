@@ -1,0 +1,30 @@
+# Sketch Plan · Caddy 反向代理
+# 通过 DOMAIN 配置站点域名，Caddy 自动申请并续期 TLS 证书
+#
+# 若域名临时不可用，要改回「纯 IP / http 模式」：
+#   1) 站点地址加 http:// 前缀：  http://{$DOMAIN:localhost} {
+#   2) 注释掉下方 Strict-Transport-Security（HSTS 仅 https 生效）
+#   3) .env 改成 DOMAIN=服务器IP、COOKIE_SECURE=0
+#   4) docker compose up -d caddy   ← 必须 up -d 重建容器，restart 不会重算环境变量
+{$DOMAIN:localhost} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# 静态资源长缓存；HTML 里的引用带 ?v= 版本号，发版改版本号即可强刷
+	@static path /assets/*
+	header @static Cache-Control "public, max-age=604800"
+
+	reverse_proxy app:4310
+}
+
+# 兜底：用 IP 或其他主机名访问时跳到正式域名，避免停在证书错误页
+http:// {
+	redir https://{$DOMAIN:localhost}{uri} 301
+}

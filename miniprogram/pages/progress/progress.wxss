@@ -1,0 +1,14 @@
+.ph { color: var(--text-3); }
+.sheet .input { line-height: 88rpx; }
+
+.pl-t {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.pl-range {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 10rpx;
+  font-variant-numeric: tabular-nums;
+}

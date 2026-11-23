@@ -1,0 +1,56 @@
+.cat {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 26rpx 24rpx;
+  background: var(--surface);
+  border: 1rpx solid var(--line);
+  border-radius: 22rpx;
+  margin-bottom: 16rpx;
+}
+.theme-ink .cat {
+  border: 2rpx solid var(--card-line);
+  border-radius: 18rpx 10rpx 20rpx 8rpx / 10rpx 20rpx 8rpx 18rpx;
+  box-shadow: 5rpx 6rpx 0 rgba(33, 30, 25, .06);
+}
+.theme-pebble .cat { border-radius: 30rpx; }
+
+.cat-sw {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 14rpx 8rpx 14rpx 8rpx;
+  flex: none;
+}
+.theme-pebble .cat-sw { border-radius: 50%; }
+
+.cat-main { flex: 1; min-width: 0; }
+.cat-t {
+  font-size: 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.cat-b {
+  font-size: 20rpx;
+  color: var(--text-3);
+  border: 1rpx solid var(--line);
+  border-radius: 6rpx;
+  padding: 0 8rpx;
+}
+.cat-d {
+  font-size: 23rpx;
+  color: var(--text-2);
+  margin-top: 8rpx;
+  line-height: 1.6;
+}
+.cat-u {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 8rpx;
+  font-variant-numeric: tabular-nums;
+}
+.cat-more {
+  font-size: 32rpx;
+  color: var(--text-3);
+  padding: 0 6rpx;
+}

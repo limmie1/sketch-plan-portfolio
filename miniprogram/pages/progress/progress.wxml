@@ -1,0 +1,91 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">长期目标</view>
+      <view class="hero-t">慢慢累积</view>
+      <view class="hero-sub">每点一次 ＋1，进度会自己算出来</view>
+    </view>
+
+    <view class="sec-h">
+      <text class="sec-t">进行中</text>
+      <view class="sec-a" bindtap="openNew">＋ 新计划</view>
+    </view>
+
+    <view class="task" wx:for="{{tasks}}" wx:key="id">
+      <view class="task-h">
+        <text class="task-t">{{item.title}}</text>
+        <text class="task-n">{{item.done}} / {{item.target}} {{item.unit}}</text>
+      </view>
+      <view class="task-bar">
+        <view class="task-fill" style="width:{{item.pct}}%"></view>
+      </view>
+      <view class="task-a">
+        <view class="btn sm ghost" data-id="{{item.id}}" bindtap="minus">－1</view>
+        <view class="btn sm ghost" data-id="{{item.id}}" bindtap="del">删除</view>
+        <view class="btn sm primary" data-id="{{item.id}}" bindtap="plus">＋1</view>
+      </view>
+    </view>
+
+    <block wx:if="{{plans.length}}">
+      <view class="sec-h"><text class="sec-t">长期计划</text></view>
+      <view class="task" wx:for="{{plans}}" wx:key="title">
+        <view class="task-h">
+          <view class="task-t pl-t">
+            <view class="dot" style="background:{{item.color}}"></view>
+            <text>{{item.title}}</text>
+          </view>
+          <text class="task-n">{{item.pct}}%</text>
+        </view>
+        <view class="task-bar">
+          <view class="task-fill" style="width:{{item.pct}}%;background:{{item.color}}"></view>
+        </view>
+        <view class="pl-range">{{item.from}} → {{item.to}} · {{item.catName}}</view>
+      </view>
+    </block>
+
+    <view class="empty" wx:if="{{!tasks.length}}">
+      <view>还没有长期目标。</view>
+      <view>比如「英语阅读 32 篇」，一天点一次就行。</view>
+    </view>
+
+  </view>
+</view>
+
+<view wx:if="{{sheet}}" class="mask" bindtap="onCancel" catchtouchmove="noop"></view>
+<view wx:if="{{sheet}}" class="sheet" catchtap="noop" catchtouchmove="noop">
+  <view class="sheet-t">加一个长期目标</view>
+
+  <view class="field">
+    <view class="field-k">目标</view>
+    <input
+      class="input"
+      value="{{form.title}}"
+      placeholder="例如：英语阅读"
+      placeholder-class="ph"
+      maxlength="24"
+      focus="{{sheet}}"
+      bindinput="onTitle"
+    />
+  </view>
+
+  <view class="pick-row">
+    <view class="field">
+      <view class="field-k">总共多少</view>
+      <input class="input" type="number" value="{{form.target}}" placeholder="32" placeholder-class="ph" bindinput="onTarget" />
+    </view>
+    <view class="field">
+      <view class="field-k">单位</view>
+      <picker range="{{units}}" value="{{unitIndex}}" bindchange="onUnit">
+        <view class="input">{{units[unitIndex]}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="sheet-a">
+    <view class="btn ghost" bindtap="onCancel">取消</view>
+    <view class="btn primary" bindtap="onSubmit">加上</view>
+  </view>
+</view>

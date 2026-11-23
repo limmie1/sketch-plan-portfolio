@@ -1,0 +1,42 @@
+.nt-card {
+  min-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 55rpx,
+    var(--line-2) 55rpx,
+    var(--line-2) 56rpx
+  );
+  background-position: 0 8rpx;
+}
+.nt-ta {
+  flex: 1;
+  width: 100%;
+  min-height: 46vh;
+  font-size: 29rpx;
+  line-height: 56rpx;
+  color: var(--text);
+  background: transparent;
+}
+.ph { color: var(--text-3); }
+
+.nt-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16rpx;
+  border-top: 1rpx solid var(--line-2);
+  margin-top: 12rpx;
+}
+.nt-meta {
+  font-size: 22rpx;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.nt-clear {
+  font-size: 24rpx;
+  color: var(--accent);
+  padding: 8rpx 4rpx;
+}

@@ -1,0 +1,121 @@
+.rv-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18rpx 0 22rpx;
+}
+.rv-mid { text-align: center; }
+.rv-t {
+  font-family: var(--display);
+  font-size: 38rpx;
+}
+.rv-s {
+  font-size: 23rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+.rv-now {
+  color: var(--accent);
+  margin-left: 10rpx;
+}
+
+.rv-nums {
+  display: flex;
+  justify-content: space-between;
+}
+.rv-num { text-align: center; flex: 1; }
+.rv-num b {
+  display: block;
+  font-family: var(--display);
+  font-size: 40rpx;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.rv-num em {
+  display: block;
+  font-style: normal;
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+
+.rv-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 200rpx;
+  gap: 10rpx;
+}
+.rv-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+.rv-bar-in {
+  flex: 1;
+  width: 100%;
+  background: var(--surface-2);
+  border-radius: 10rpx;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+.rv-bar-fill {
+  width: 100%;
+  background: var(--accent);
+  border-radius: 10rpx;
+  transition: height .35s ease;
+  min-height: 4rpx;
+}
+.rv-bar-l {
+  font-size: 21rpx;
+  color: var(--text-3);
+  margin-top: 10rpx;
+}
+
+.rv-cat { margin-bottom: 20rpx; }
+.rv-cat:last-child { margin-bottom: 0; }
+.rv-cat-h {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.rv-cat-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+}
+.rv-cat-n { font-size: 26rpx; flex: 1; }
+.rv-cat-v {
+  font-size: 22rpx;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.rv-cat-bar {
+  height: 10rpx;
+  background: var(--surface-2);
+  border-radius: 99rpx;
+  overflow: hidden;
+  margin-top: 10rpx;
+}
+.rv-cat-fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width .35s ease;
+}
+
+.ta {
+  width: 100%;
+  min-height: 120rpx;
+  background: var(--surface-2);
+  border-radius: 16rpx;
+  padding: 20rpx 22rpx;
+  font-size: 27rpx;
+  line-height: 1.7;
+  color: var(--text);
+  box-sizing: border-box;
+}
+.theme-ink .ta { border: 2rpx solid var(--line); }
+.ph { color: var(--text-3); }

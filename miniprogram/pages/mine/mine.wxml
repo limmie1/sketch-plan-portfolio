@@ -1,0 +1,89 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="me-head">
+      <button class="me-av-btn" open-type="chooseAvatar" bindchooseavatar="onAvatar">
+        <image class="me-av" wx:if="{{avatar}}" src="{{avatar}}" mode="aspectFill" />
+        <view class="me-av ph-av" wx:else>{{name[0]}}</view>
+      </button>
+      <view class="me-info">
+        <input
+          class="me-name"
+          type="nickname"
+          value="{{name}}"
+          bindblur="onNick"
+          maxlength="20"
+          placeholder="点这里填昵称"
+          placeholder-class="ph"
+        />
+        <view class="me-mode">
+          <text>{{mode}}</text>
+          <text wx:if="{{openidShort}}" class="me-oid">· …{{openidShort}}</text>
+        </view>
+      </view>
+      <view class="me-relogin" bindtap="relogin">刷新</view>
+    </view>
+
+    <view class="card me-stat">
+      <view class="me-num">
+        <b>{{stats.weekRate || 0}}%</b>
+        <em>本周完成率</em>
+      </view>
+      <view class="me-num">
+        <b>{{stats.weekDone || 0}}/{{stats.weekTotal || 0}}</b>
+        <em>本周件事</em>
+      </view>
+      <view class="me-num">
+        <b>{{stats.collections || 0}}</b>
+        <em>工作集</em>
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">工具</text></view>
+    <view class="card me-menu">
+      <view class="kv" data-url="/pages/search/search" bindtap="go">
+        <text>搜索</text><em>找一件事 ›</em>
+      </view>
+      <view class="kv" data-url="/pages/collections/collections" bindtap="go">
+        <text>工作集</text><em>{{stats.collections || 0}} 个 ›</em>
+      </view>
+      <view class="kv" data-url="/pages/cats/cats" bindtap="go">
+        <text>分类</text><em>颜色与统计 ›</em>
+      </view>
+      <view class="kv" data-url="/pages/review/review" bindtap="go">
+        <text>复盘</text><em>每周回顾 ›</em>
+      </view>
+      <view class="kv" data-url="/pages/note/note" bindtap="go">
+        <text>便签</text><em>随手记 ›</em>
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">皮肤</text></view>
+    <view class="seg">
+      <view class="seg-item {{theme === 'ink' ? 'on' : ''}}" data-t="ink" bindtap="setTheme">
+        <view class="swatch ink"></view><text>纸墨</text>
+      </view>
+      <view class="seg-item {{theme === 'pebble' ? 'on' : ''}}" data-t="pebble" bindtap="setTheme">
+        <view class="swatch pebble"></view><text>柔彩</text>
+      </view>
+      <view class="seg-item {{theme === 'aurora' ? 'on' : ''}}" data-t="aurora" bindtap="setTheme">
+        <view class="swatch aurora"></view><text>夜航</text>
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">其它</text></view>
+    <view class="card me-menu">
+      <view class="kv" data-url="/pages/settings/settings" bindtap="go">
+        <text>设置</text><em>提醒、一周起始、账号 ›</em>
+      </view>
+      <view class="kv" data-url="/pages/about/about" bindtap="go">
+        <text>关于</text><em>v2.0.0 ›</em>
+      </view>
+    </view>
+
+    <view class="note">数据存在这台手机上，与网页版各存各的；卸载小程序会一起清掉。</view>
+
+  </view>
+</view>

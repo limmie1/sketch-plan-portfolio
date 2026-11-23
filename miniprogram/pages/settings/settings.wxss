@@ -1,0 +1,25 @@
+.lg-oid {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 14rpx 0 6rpx;
+}
+.lg-k {
+  font-size: 22rpx;
+  color: var(--text-3);
+  letter-spacing: .06em;
+}
+.lg-v {
+  font-size: 24rpx;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+.lg-acts {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+.lg-acts .btn { flex: 1; }
+.danger-tx { color: #D9503A; }
+.theme-aurora .danger-tx { color: #FF6FA5; }
+.ph { color: var(--text-3); }

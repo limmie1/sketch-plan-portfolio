@@ -1,0 +1,35 @@
+# 一键起：docker compose up -d --build
+# 需要域名时把 DOMAIN 写进 .env（例如 sketch.example.com），Caddy 会自动申请 HTTPS
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "4310"
+      DATA_DIR: /data
+      COOKIE_SECURE: ${COOKIE_SECURE:-1}
+      TZ: ${TZ:-Asia/Shanghai}
+    volumes:
+      - ./data:/data
+    expose:
+      - "4310"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:

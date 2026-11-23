@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Sketch Plan">
+  <title>Sketch Plan</title>
+  <!-- 满版方底（给 iOS / Android maskable 用，圆角由系统自己切） -->
+  <rect x="0" y="0" width="512" height="512" fill="#C95A44"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="150" y="172" width="212" height="196" rx="10"/>
+    <path d="M120 172H392"/>
+    <path d="M120 172v-18"/>
+    <path d="M392 172v-18"/>
+    <path d="M200 268l38 38 82-76"/>
+  </g>
+</svg>

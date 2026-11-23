@@ -1,0 +1,47 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">速记</view>
+      <view class="hero-t">一句话，排成日程</view>
+      <view class="hero-sub">时间、时长、分类、重复、提醒都能认出来。</view>
+    </view>
+
+    <view class="card cp-card">
+      <textarea
+        class="cp-ta"
+        value="{{text}}"
+        bindinput="onInput"
+        maxlength="120"
+        auto-height
+        placeholder="例：明天下午三点半 跟导师讨论论文 1小时 提前20分钟"
+        placeholder-class="ph"
+      />
+      <view class="cp-samples">
+        <view class="cp-chip" wx:for="{{samples}}" wx:key="*this" data-t="{{item}}" bindtap="useSample">{{item}}</view>
+      </view>
+    </view>
+
+    <block wx:if="{{preview}}">
+      <view class="sec-h"><text class="sec-t">这样排</text></view>
+      <view class="card">
+        <view class="cp-t">{{preview.title}}</view>
+        <view class="cp-line">
+          <view class="dot" style="background:{{preview.color}}"></view>
+          <text>{{preview.dateLabel}} · {{preview.time}} · {{preview.catName}}</text>
+        </view>
+        <view class="cp-line"><text>时长 {{preview.dur}} · {{preview.remind}}</text></view>
+        <view class="cp-line" wx:if="{{preview.repeat}}"><text>重复：{{preview.repeat}}</text></view>
+        <view class="cp-line" wx:if="{{preview.assumed}}"><text class="cp-warn">没写时间，按整点排了</text></view>
+        <view class="cp-line" wx:if="{{preview.roll}}"><text class="cp-warn">这个时间今天已过，顺延到明天</text></view>
+      </view>
+
+      <view class="btn primary cp-save" bindtap="save">存进日程</view>
+    </block>
+
+    <view class="note">解析全在本机完成，不联网、不上传。</view>
+
+  </view>
+</view>

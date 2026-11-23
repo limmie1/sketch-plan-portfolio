@@ -1,0 +1,2 @@
+.ph { color: var(--text-3); }
+.sheet .input { line-height: 88rpx; }

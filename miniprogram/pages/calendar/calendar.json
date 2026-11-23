@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "月历",
+  "usingComponents": {
+    "ev-sheet": "../../components/ev-sheet/index"
+  }
+}

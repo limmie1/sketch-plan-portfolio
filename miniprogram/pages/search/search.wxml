@@ -1,0 +1,36 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="sr-bar">
+      <text class="sr-ico">⌕</text>
+      <input
+        class="sr-input"
+        value="{{kw}}"
+        bindinput="onInput"
+        confirm-type="search"
+        focus="{{true}}"
+        placeholder="搜日程、工作集、计划"
+        placeholder-class="ph"
+      />
+      <view class="sr-clear" wx:if="{{kw}}" bindtap="clear">清空</view>
+    </view>
+
+    <view class="sr-hint" wx:if="{{!searched}}">输入关键词，标题、备注和分类都会参与匹配。</view>
+
+    <view wx:if="{{searched}}">
+      <view class="sr-hint" wx:if="{{!total}}">没有找到「{{kw}}」。</view>
+      <view class="sr-hint" wx:else>找到 {{total}} 条</view>
+
+      <view class="sr-item" wx:for="{{results}}" wx:key="id" data-i="{{index}}" bindtap="tapItem">
+        <view class="sr-main">
+          <view class="sr-t">{{item.title}}</view>
+          <view class="sr-s">{{item.sub}}</view>
+        </view>
+        <view class="sr-tag">{{item.type === 'event' ? '日程' : (item.type === 'collection' ? '工作集' : '计划')}}</view>
+      </view>
+    </view>
+
+  </view>
+</view>

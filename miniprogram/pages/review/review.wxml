@@ -1,0 +1,82 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="rv-head">
+      <view class="cal-nav" data-d="-1" bindtap="shift">‹</view>
+      <view class="rv-mid">
+        <view class="rv-t">复盘</view>
+        <view class="rv-s">{{label}}<text class="rv-now" wx:if="{{isThisWeek}}">本周</text></view>
+      </view>
+      <view class="cal-nav" data-d="1" bindtap="shift">›</view>
+    </view>
+
+    <view class="card">
+      <view class="rv-nums">
+        <view class="rv-num">
+          <b>{{stat.rate}}%</b>
+          <em>完成率</em>
+        </view>
+        <view class="rv-num">
+          <b>{{stat.done}}/{{stat.total}}</b>
+          <em>完成 / 计划</em>
+        </view>
+        <view class="rv-num">
+          <b>{{stat.hours}}h</b>
+          <em>排期时长</em>
+        </view>
+      </view>
+      <view class="bar" style="margin-top:20rpx">
+        <view class="bar-fill" style="width:{{stat.rate}}%"></view>
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">这一周每天</text></view>
+    <view class="card">
+      <view class="rv-bars">
+        <view class="rv-bar" wx:for="{{series}}" wx:key="k">
+          <view class="rv-bar-in">
+            <view class="rv-bar-fill" style="height:{{item.rate}}%"></view>
+          </view>
+          <text class="rv-bar-l">{{item.label}}</text>
+        </view>
+      </view>
+      <view class="note" wx:if="{{!stat.total}}">这一周没有排日程。</view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">时间花在哪</text></view>
+    <view class="card" wx:if="{{cats.length}}">
+      <view class="rv-cat" wx:for="{{cats}}" wx:key="cat">
+        <view class="rv-cat-h">
+          <view class="rv-cat-dot" style="background:{{item.color}}"></view>
+          <text class="rv-cat-n">{{item.name}}</text>
+          <text class="rv-cat-v">{{item.hours}}h · {{item.pct}}%</text>
+        </view>
+        <view class="rv-cat-bar">
+          <view class="rv-cat-fill" style="width:{{item.pct}}%;background:{{item.color}}"></view>
+        </view>
+      </view>
+    </view>
+    <view class="card" wx:else><view class="note" style="margin:0">这周还没安排事情，先过完再回来写。</view></view>
+
+    <view class="sec-h"><text class="sec-t">写两句</text></view>
+    <view class="card">
+      <view class="field">
+        <view class="field-k">这周做成了什么</view>
+        <textarea class="ta" value="{{form.wins}}" data-k="wins" bindinput="onInput" maxlength="300" auto-height placeholder="哪怕只有一件小事" placeholder-class="ph" />
+      </view>
+      <view class="field">
+        <view class="field-k">卡在哪</view>
+        <textarea class="ta" value="{{form.blocks}}" data-k="blocks" bindinput="onInput" maxlength="300" auto-height placeholder="时间不够？状态不好？还是没想清楚" placeholder-class="ph" />
+      </view>
+      <view class="field">
+        <view class="field-k">下周先做什么</view>
+        <textarea class="ta" value="{{form.next}}" data-k="next" bindinput="onInput" maxlength="300" auto-height placeholder="只写一件最重要的" placeholder-class="ph" />
+      </view>
+      <view class="btn primary" bindtap="save">存到这一周</view>
+      <view class="note" wx:if="{{savedAt}}">上次保存：{{savedAt}}</view>
+    </view>
+
+  </view>
+</view>

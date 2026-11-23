@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Sketch Plan">
+  <title>Sketch Plan</title>
+  <!-- 底：陶土红圆角方 -->
+  <rect x="0" y="0" width="512" height="512" rx="116" ry="116" fill="#C95A44"/>
+  <!-- 字形：一张带装订栏的纸 + 一个勾，白色线性 -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="25" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="150" y="172" width="212" height="196" rx="10"/>
+    <path d="M120 172H392"/>
+    <path d="M120 172v-18"/>
+    <path d="M392 172v-18"/>
+    <path d="M200 268l38 38 82-76"/>
+  </g>
+</svg>

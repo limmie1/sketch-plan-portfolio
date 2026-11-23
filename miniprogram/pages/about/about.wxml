@@ -1,0 +1,45 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">Sketch Plan</view>
+      <view class="hero-t">把日程画在纸上</view>
+      <view class="hero-sub">版本 {{version}}</view>
+    </view>
+
+    <view class="card">
+      <view class="about-p">
+        月历、今天、长期目标，三件事放在一起。不催促，也不评判，只帮你把时间看清楚。
+      </view>
+      <view class="about-p">
+        这是 Sketch Plan 的小程序版本，界面与配色沿用同一套设计，数据改为存放在本机。
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">隐私说明</text></view>
+    <view class="card">
+      <view class="about-p">
+        本小程序不收集、不上传任何个人信息。你写的日程、计划、显示名，全部保存在微信小程序的本地缓存里，只有你自己的这台设备能读到。
+      </view>
+      <view class="about-p">
+        小程序没有接入任何第三方统计、广告或数据分析服务，也不会读取你的位置、通讯录、相册与剪贴板。
+      </view>
+      <view class="about-p">
+        因为数据只在本机，卸载小程序或在微信里清除小程序缓存后，内容无法找回。如果需要长期保存，请自行记录备份。
+      </view>
+    </view>
+
+    <view class="sec-h"><text class="sec-t">怎么用</text></view>
+    <view class="card">
+      <view class="kv"><text>今天</text><em>轻点圆圈打勾，长按条目改或删</em></view>
+      <view class="kv"><text>月历</text><em>点日期看当天，点月份标题回到今天</em></view>
+      <view class="kv"><text>计划</text><em>每完成一次点「＋1」</em></view>
+      <view class="kv"><text>外观</text><em>纸墨 / 柔彩 / 夜航，三套随便换</em></view>
+    </view>
+
+    <view class="note" style="text-align:center;margin-top:40rpx">Sketch Plan · 小程序版</view>
+
+  </view>
+</view>

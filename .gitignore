@@ -1,0 +1,45 @@
+# ---------- 本地数据（含真实用户凭据，禁止入库） ----------
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# ---------- 环境变量与密钥 ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---------- 依赖 ----------
+node_modules/
+
+# ---------- 构建产物 ----------
+release/
+release-static/
+
+# ---------- 本地调试产物 ----------
+.shots*/
+.cdp-*/
+.mp-preview.html
+.mpsmoke.cjs
+.mpcheck.cjs
+.icons.mjs
+.probe.mjs
+.in-probe.mjs
+.out-probe.mjs
+.data-report/
+
+# ---------- 日志 ----------
+*.log
+logs/
+
+# ---------- 系统与编辑器 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/settings.json
+*.swp

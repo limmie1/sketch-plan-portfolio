@@ -1,0 +1,30 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">便签</view>
+      <view class="hero-t">随手记一张纸</view>
+      <view class="hero-sub">不用挑日期，不用分类，想到什么写什么。</view>
+    </view>
+
+    <view class="card nt-card">
+      <textarea
+        class="nt-ta"
+        value="{{text}}"
+        bindinput="onInput"
+        maxlength="2000"
+        placeholder="今天想记下的…"
+        placeholder-class="ph"
+      />
+      <view class="nt-foot">
+        <text class="nt-meta">{{count}} 字<text wx:if="{{updatedAt}}"> · {{updatedAt}} 已存</text></text>
+        <view class="nt-clear" bindtap="clear">清空</view>
+      </view>
+    </view>
+
+    <view class="note">边写边存，退出页面也不会丢。</view>
+
+  </view>
+</view>

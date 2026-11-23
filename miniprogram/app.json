@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/today/today",
+    "pages/calendar/calendar",
+    "pages/timeline/timeline",
+    "pages/progress/progress",
+    "pages/mine/mine",
+    "pages/collections/collections",
+    "pages/cats/cats",
+    "pages/review/review",
+    "pages/note/note",
+    "pages/settings/settings",
+    "pages/search/search",
+    "pages/capture/capture",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarTitleText": "Sketch Plan",
+    "navigationBarBackgroundColor": "#FBF7EE",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FBF7EE",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#948B7A",
+    "selectedColor": "#D9503A",
+    "backgroundColor": "#FDFBF5",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/today/today",
+        "text": "今天",
+        "iconPath": "images/tab-today.png",
+        "selectedIconPath": "images/tab-today-on.png"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "text": "月历",
+        "iconPath": "images/tab-cal.png",
+        "selectedIconPath": "images/tab-cal-on.png"
+      },
+      {
+        "pagePath": "pages/timeline/timeline",
+        "text": "时间轴",
+        "iconPath": "images/tab-tl.png",
+        "selectedIconPath": "images/tab-tl-on.png"
+      },
+      {
+        "pagePath": "pages/progress/progress",
+        "text": "计划",
+        "iconPath": "images/tab-plan.png",
+        "selectedIconPath": "images/tab-plan-on.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-me.png",
+        "selectedIconPath": "images/tab-me-on.png"
+      }
+    ]
+  },
+  "permission": {},
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

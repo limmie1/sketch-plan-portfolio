@@ -1,0 +1,23 @@
+# 统一用 LF：项目部署在 Linux 容器，Windows 本地也不做 CRLF 转换
+* text=auto eol=lf
+
+# 二进制文件不做行尾与文本处理
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.zip binary
+*.db binary
+
+# 明确按 LF 处理、避免被识别成二进制
+*.sh text eol=lf
+Dockerfile text eol=lf
+Caddyfile text eol=lf
+*.mjs text eol=lf
+*.js text eol=lf
+*.wxss text eol=lf
+
+# 文档按平台习惯即可（这里仍统一 LF，避免 diff 噪音）
+*.md text eol=lf

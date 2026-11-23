@@ -1,0 +1,65 @@
+<page-meta page-style="{{pageStyle}}" />
+
+<view class="root theme-{{theme}}">
+  <view class="wrap">
+
+    <view class="hero">
+      <view class="hero-k">{{todayLabel}} · 周{{weekday}}</view>
+      <view class="hero-t">{{greeting}}</view>
+      <view class="hero-sub" wx:if="{{total}}">今天 {{total}} 件事，已完成 {{doneCount}} 件</view>
+      <view class="hero-sub" wx:else>今天还没有安排，写一件就好</view>
+      <view class="bar" wx:if="{{total}}">
+        <view class="bar-fill" style="width:{{rate}}%"></view>
+      </view>
+    </view>
+
+    <view class="qa">
+      <view class="qa-item" data-url="/pages/capture/capture" bindtap="go">⚡ 速记</view>
+      <view class="qa-item" data-url="/pages/search/search" bindtap="go">⌕ 搜索</view>
+      <view class="qa-item" data-url="/pages/note/note" bindtap="go">✎ 便签</view>
+    </view>
+
+    <view class="sec-h">
+      <text class="sec-t">今日安排</text>
+      <view class="sec-a" bindtap="openNew">＋ 新增</view>
+    </view>
+
+    <view class="list" wx:if="{{events.length}}">
+      <view
+        class="row {{item.done ? 'done' : ''}}"
+        wx:for="{{events}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="toggle"
+        bindlongpress="more"
+        hover-class="row-hover"
+      >
+        <view class="tick {{item.done ? 'on' : ''}}">{{item.done ? '✓' : ''}}</view>
+        <view class="row-main">
+          <view class="row-t">{{item.title}}</view>
+          <view class="row-s">
+            <view class="dot" style="background:{{item.color}}"></view>
+            <text>{{item.start}}–{{item.end}} · {{item.catName}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:else>
+      <view>今天还是空的。</view>
+      <view>点上面的「＋ 新增」记一件事。</view>
+    </view>
+
+    <view class="note" wx:if="{{events.length}}">轻点左圈打勾，长按可编辑或删除。</view>
+
+  </view>
+</view>
+
+<ev-sheet
+  show="{{sheet}}"
+  value="{{form}}"
+  cats="{{cats}}"
+  bind:submit="onSubmit"
+  bind:cancel="onCancel"
+  bind:remove="onRemove"
+/>
